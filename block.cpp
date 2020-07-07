@@ -60,16 +60,16 @@ void block::Win(){
     for(int i=0;i<14;i++){
         for(int j=0;j<18;j++){
             if((GameMap[i][j])<100||(GameMap[i][j]>108&&GameMap[i][j]!=99))
-//                GameState=PLAYING;
-//            else if(GameMap[i][j]==149)//该处为雷而且被翻开就游戏结束
-//                GameState=OVER;
+                gamestate=PLAYING;
+            else if(GameMap[i][j]==199)//该处为雷而且被翻开就游戏结束
+                gamestate=OVER;
             if(GameMap[i][j]==99||100<=GameMap[i][j]<=108)
                 sum++;
         }
     }
     if(sum==14*18)
-//        GameState=WIN;
-;}
+        gamestate=WIN;
+}
 void block::Click(int i, int j){
     //如果点击到为0的方格，就采用递归方法显示空白方格和空白方格周围的带有数字的方格
     //TODO:实现鼠标的在地图【i】【j】处的点击
