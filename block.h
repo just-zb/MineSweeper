@@ -17,7 +17,7 @@ private:
     GameState gamestate; // 当前游戏状态
 public:
     // 游戏地图,元素为0-8代表周围的雷数目而且未翻开，如果在该处有红旗就加50，如果已经被翻开就加100，如果该处为雷就为99，149是该处为雷而且有红旗
-    int GameMap[14][18];
+    int GameMap[14][18]={0};
     //构造函数
     block();
     // 按当前参数重新开始游戏
@@ -25,7 +25,7 @@ public:
     //检查游戏输赢函数
     void Win();
     //点击函数
-    void Click();
+    void Click(int i,int j);
 };
 
 
