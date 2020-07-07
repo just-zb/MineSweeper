@@ -6,7 +6,7 @@
 namespace Ui {
 class MainWindow;
 }
-
+class block;
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
@@ -22,6 +22,9 @@ void CurrentMap(block*b);
 void PaintMap(QPaintEvent*event);
 private:
     Ui::MainWindow *ui;
+private slots:
+
+
 };
 
 #endif // MAINWINDOW_H
