@@ -7,6 +7,7 @@
 #include <QPoint>
 #include <QMouseEvent>
 #include "block.h"
+#include<QPaintEvent>
 
 namespace Ui {
 class MainWindow;
