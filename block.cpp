@@ -69,7 +69,7 @@ void block::Win(){
     }
     if(sum==14*18)
         gamestate=WIN;
-}
+;}
 void block::Click(int i, int j){
     //如果点击到为0的方格，就采用递归方法显示空白方格和空白方格周围的带有数字的方格
     //TODO:实现鼠标的在地图【i】【j】处的点击
@@ -77,7 +77,11 @@ void block::Click(int i, int j){
 
     //大体思路是，如果一个块是0就加100，对他周围每一个不等于100的块进行递归，
     //并让被重复运算的块的值始终在100~108
-
+    //如果数字在1~8或99都翻开（加100），已经插了旗的不做操作
+    if((GameMap[i][j]>=1 && GameMap[i][j]<8) || GameMap[i][j]==99)
+    {
+        GameMap[i][j]+=100;
+    }
     if(GameMap[i][j]==0)
     {
         GameMap[i][j]+=100;
