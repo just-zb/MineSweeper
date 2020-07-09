@@ -59,7 +59,7 @@ void block::Win(){
     int sum=0;
     for(int i=0;i<14;i++){
         for(int j=0;j<18;j++){
-            if((GameMap[i][j])<100||(GameMap[i][j]>108&&GameMap[i][j]!=99))
+            if((GameMap[i][j]<100||GameMap[i][j]>108)&&(GameMap[i][j]!=99&&GameMap[i][j]!=149))
                 gamestate=PLAYING;
             else if(GameMap[i][j]==199)//该处为雷而且被翻开就游戏结束
                 gamestate=OVER;

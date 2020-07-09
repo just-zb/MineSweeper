@@ -21,7 +21,7 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
-    block myBlock;
+    block bl;
 
     //定义处理鼠标移动的函数
     //void MouseEvent(QMouseEvent*m);
@@ -35,9 +35,15 @@ public:
 
 private:
     Ui::MainWindow *ui;
+    //定义m_pLCD来展示时间
+    QLCDNumber m_pLCD = new QLCDNumber(this);
+    //放置定时器实现LCD的每秒刷新
+    QTimer* mTimer=new QTimer(this);
 private slots:
-
-
+    void on_pushButton_clicked();
+    void on_pushButton_2_clicked();
+    void on_lcdNumber_2_overflow();
+    void on_lcdNumber_overflow();
 };
 
 #endif // MAINWINDOW_H

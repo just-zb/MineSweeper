@@ -1,13 +1,12 @@
 
 #include<Qpainter>
+#include<QTimer>
 #include "mainwindow.h"
 
 #include "ui_mainwindow.h"
-block bl;
 #include "block.h"
 #include<QImage>
 #include<QPixmap>
-
 
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -19,6 +18,11 @@ MainWindow::MainWindow(QWidget *parent) :
 {
 
     ui->setupUi(this);
+    //设置计时器
+    mTimer->setInterval(1000);
+    //关联信号槽
+        connect(mTimer,SIGNAL(timeout()),this,on_lcdNumber_2_overflow(););
+        connect(mTimer,SIGNAL(timeout()),this,on_lcdNumber_overflow(););
 
 }
 
@@ -31,7 +35,6 @@ MainWindow::~MainWindow()
     delete ui;
 
 }
-
 
 
 void MainWindow::paintEvent(QPaintEvent *event)
@@ -141,13 +144,12 @@ QPoint P = event->pos();
 
     {
 
-if(bl.GameMap[(P.y()-30) / 20][(P.x()-30) / 20]==0)
+    if(bl.GameMap[(P.y()-30) / 20][(P.x()-30) / 20]==0)
     bl.GameMap[(P.y()-30) / 20][(P.x()-30) / 20]=1000;
         //假设扫雷的棋盘从窗口的（30,30）开始，到（390,350）
+        //则每个小格的大小是 宽 20 =（390-30）/18，高 20=（310-30）/14
 
-        //则每个小格的大小是 宽 20 =（390-30）/18，高 20=（350-30）/16
-
-        myBlock.Click((P.y()-30) / 20,(P.x()-30) / 20);                                             //<<<<<<<<这里改了一下，调了下行列的位置，原来的是错的
+        bl.Click((P.y()-30) / 20,(P.x()-30) / 20);                                             //<<<<<<<<这里改了一下，调了下行列的位置，原来的是错的
 
         qDebug() << (P.x()-30) / 20 <<" "<< (P.y()-30) / 20;
 
@@ -185,12 +187,45 @@ if(bl.GameMap[(P.y()-30) / 20][(P.x()-30) / 20]==0)
         //todo
 
     }
-
-
-
     //更新绘图事件
-
     update();
+}
+//开始游戏的槽
+void MainWindow::on_pushButton_clicked()
+{
+    //在点击开始游戏后，开始计时器。
+    mTimer->start();
+    //重新定义bl对象
+    block mbl;
+    bl=mbl;
+}
+//退出游戏的槽函数
+void MainWindow::on_pushButton_2_clicked()
+{
+    QCoreApplication::quit();
+}
+void MainWindow::on_lcdNumber_2_overflow()
+{
+    //对lcdnumber时间的显示样式做出修改
+    // 设置位数
+    ui->lcdNumber_2->setDigitCount(4);
+    // 设置显示外观
+    ui->lcdNumber_2->setSegmentStyle(QLCDNumber::Flat);
+    // 设置样式
+    ui->lcdNumber_2->setStyleSheet("border: 1px solid green; color: green; background: silver;");
+    ui->lcdNumber_2->display(0);
+
 
 }
 
+void MainWindow::on_lcdNumber_overflow()
+{
+    //对lcdnumber时间的显示样式做出修改
+    // 设置位数
+    ui->lcdNumber->setDigitCount(4);
+    // 设置显示外观
+    ui->lcdNumber->setSegmentStyle(QLCDNumber::Flat);
+    // 设置样式
+    ui->lcdNumber->setStyleSheet("border: 1px solid green; color: green; background: silver;");
+    ui->lcdNumber->display(0);
+}
