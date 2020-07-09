@@ -4,6 +4,7 @@
 
 block::block(){
     MineNumber=40;
+    Flag=0;
     CurMineNumber=0;
 //    gamelevel=MEDIUM;
     gamestate=PLAYING;
@@ -69,7 +70,15 @@ void block::Win(){
     }
     if(sum==14*18)
         gamestate=WIN;
-;}
+}
+int FlagMunber(){
+    for(int i=0;i<14;i++){
+        for(int j=0;j<18;j++){
+            if(GameMap[i][j]==149)
+                flag++;
+        }
+    }
+}
 void block::Click(int i, int j){
     //如果点击到为0的方格，就采用递归方法显示空白方格和空白方格周围的带有数字的方格
     //TODO:实现鼠标的在地图【i】【j】处的点击
