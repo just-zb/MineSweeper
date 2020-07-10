@@ -6,6 +6,7 @@ class block
 private:
     //MineNumber为炸弹数，Flag是红旗数
     int MineNumber;
+    int Flag;
     int CurMineNumber;  // 当前已经出现的雷的数目
     // 三种游戏状态
     enum GameState
@@ -27,6 +28,7 @@ public:
     void Win();
     //点击函数
     void Click(int i,int j);
+    int FlagMunber();
 };
 
 
