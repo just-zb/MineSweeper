@@ -37,3 +37,6 @@ FORMS += \
 
 RESOURCES += \
     resoures.qrc
+
+DISTFILES += \
+    flag01

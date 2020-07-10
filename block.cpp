@@ -2,11 +2,19 @@
 #include<time.h>
 #include<stdlib.h>
 
-block::block(){
+block::block()
+{
+    GameMap[14][18]={0};
+    for(int i=0;i<14;i++)
+    {
+        for(int j=0;j<18;j++)
+        {
+            GameMap[i][j]=0;
+        }
+    }
     MineNumber=40;
     Flag=0;
-    CurMineNumber=0;
-//    gamelevel=MEDIUM;
+    GameTime=0;//游戏时间的初始化
     gamestate=PLAYING;
     //随机布雷
     srand((unsigned int)time(0));
@@ -15,7 +23,8 @@ block::block(){
         //生成随机数
         int row=rand()%14;
         int col=rand()%18;
-        if(GameMap[row][col]!=99){
+        if(GameMap[row][col]!=99)
+        {
             GameMap[row][col]=99;
             k--;
         }
@@ -55,27 +64,41 @@ void block::restartGame(){
             GameMap[i][j]=mblock.GameMap[i][j];
         }
     }
+    gamestate=PLAYING;//游戏状态
+    Flag=0;
+    GameTime=0;
 }
-void block::Win(){
-    int sum=0;
-    for(int i=0;i<14;i++){
-        for(int j=0;j<18;j++){
-            if((GameMap[i][j]<100||GameMap[i][j]>108)&&(GameMap[i][j]!=99&&GameMap[i][j]!=149))
-                gamestate=PLAYING;
-            else if(GameMap[i][j]==199)//该处为雷而且被翻开就游戏结束
-                gamestate=OVER;
-            if(GameMap[i][j]==99||100<=GameMap[i][j]<=108)
-                sum++;
-        }
+void block::Win()
+{
+gamestate=PLAYING;
+for(int i=0;i<14;i++)
+{
+    for(int j=0;j<18;j++)
+    {
+        if(GameMap[i][j]==199)
+            gamestate=OVER;
     }
-    if(sum==14*18)
-        gamestate=WIN;
 }
-int FlagMunber(){
-    for(int i=0;i<14;i++){
-        for(int j=0;j<18;j++){
-            if(GameMap[i][j]==149)
-                flag++;
+int sum=0;
+for(int i=0;i<14;i++)
+{
+    for(int j=0;j<18;j++)
+    {
+        if(GameMap[i][j]==99||GameMap[14][19]==149||(GameMap[i][j]<=108&&GameMap[i][j]>=100))
+            sum++;
+    }
+}
+if(sum==14*18)
+    gamestate=WIN;
+}
+void block::FlagNumber(){
+    Flag=0;
+    for(int i=0;i<14;i++)
+    {
+        for(int j=0;j<18;j++)
+        {
+            if(GameMap[i][j]==149||(GameMap[i][j]<=58&&GameMap[i][j]>=50))
+                Flag++;
         }
     }
 }
@@ -91,6 +114,7 @@ void block::Click(int i, int j){
     {
         GameMap[i][j]+=100;
     }
+
     if(GameMap[i][j]==0)
     {
         GameMap[i][j]+=100;

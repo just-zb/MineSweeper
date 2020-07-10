@@ -10,11 +10,9 @@
 #include<QPaintEvent>
 #include<QLCDNumber>
 #include<QTimer>
-
 namespace Ui {
 class MainWindow;
 }
-//class block;
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
@@ -23,29 +21,25 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
-    block bl;
-
-    //定义处理鼠标移动的函数
-    //void MouseEvent(QMouseEvent*m);
-
+    block myBlock;//此处为myBlock
     //获取鼠标释放时的位置
     void mouseReleaseEvent(QMouseEvent*event);
     //定义获取当前地图状况的函数
     void CurrentMap(block*b);
     //绘制界面函数
     void paintEvent(QPaintEvent*event);
-
+    void handleGameState();
 private:
     Ui::MainWindow *ui;
-    //定义m_pLCD来展示时间
-    QLCDNumber *m_pLCD = new QLCDNumber(this);
-    //放置定时器实现LCD的每秒刷新
+    //放置定时器实现GameTime和红旗的数目的每秒刷新
     QTimer *mTimer=new QTimer(this);
+    QTimer *kTimer=new QTimer(this);
 private slots:
     void on_pushButton_clicked();
     void on_pushButton_2_clicked();
     void on_lcdNumber_2_overflow();
     void on_lcdNumber_overflow();
+    void updateGameTime();//更新时间
 };
 
 #endif // MAINWINDOW_H

@@ -478,8 +478,11 @@
       <height>20</height>
      </rect>
     </property>
+    <property name="styleSheet">
+     <string notr="true">font: 9pt &quot;.PingFang SC0&quot;;</string>
+    </property>
     <property name="text">
-     <string>开始游戏</string>
+     <string>重新开始</string>
     </property>
    </widget>
    <widget class="QLabel" name="label_2">
@@ -491,8 +494,11 @@
       <height>21</height>
      </rect>
     </property>
+    <property name="styleSheet">
+     <string notr="true">font: 9pt &quot;.PingFang SC0&quot;;</string>
+    </property>
     <property name="text">
-     <string>游戏时间：</string>
+     <string>红旗数目：</string>
     </property>
    </widget>
    <widget class="QLabel" name="label_3">
@@ -504,8 +510,11 @@
       <height>21</height>
      </rect>
     </property>
+    <property name="styleSheet">
+     <string notr="true">font: 9pt &quot;.PingFang SC0&quot;;</string>
+    </property>
     <property name="text">
-     <string>红旗数目：</string>
+     <string>游戏时间：</string>
     </property>
    </widget>
    <widget class="QPushButton" name="pushButton_2">
@@ -516,6 +525,9 @@
       <width>80</width>
       <height>20</height>
      </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 9pt &quot;.PingFang SC0&quot;;</string>
     </property>
     <property name="text">
      <string>退出游戏</string>

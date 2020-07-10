@@ -2,14 +2,13 @@
 #include<Qpainter>
 #include<QTimer>
 #include "mainwindow.h"
-
+#include <QMessageBox>
 #include "ui_mainwindow.h"
 #include "block.h"
 #include<QImage>
 #include<QPixmap>
 
 
-block myBlock;
 MainWindow::MainWindow(QWidget *parent) :
 
     QMainWindow(parent),
@@ -19,12 +18,10 @@ MainWindow::MainWindow(QWidget *parent) :
 {
 
     ui->setupUi(this);
-    //设置计时器
-    mTimer->setInterval(1000);
     //关联信号槽
- //       connect(mTimer,SIGNAL(timeout()),this,on_lcdNumber_2_overflow(););
-//        connect(mTimer,SIGNAL(timeout()),this,on_lcdNumber_overflow(););
-
+       connect(kTimer,SIGNAL(timeout()),this,SLOT(on_lcdNumber_2_overflow()));//flag
+       connect(mTimer,SIGNAL(timeout()),this,SLOT(on_lcdNumber_overflow()));//gametime
+       connect(mTimer,SIGNAL(timeout()),this,SLOT(updateGameTime()));//开始游戏
 }
 
 
@@ -74,7 +71,9 @@ if(flag==1)
                         }
                     }
                }
-                p.drawText(30,390,tr("Gmae Over"));
+                p.drawText(30,390,tr("Game Over"));
+                handleGameState();
+
             }
 
 
@@ -160,7 +159,7 @@ if(flag==1)
     }*/
     for(int i=0;i<14;i++)//鼠标右键点击后变为900，测试用
     {   for(int j=0;j<18;j++)
-        {   if(myBlock.GameMap[i][j]>=50&&myBlock.GameMap[i][j]<=60||myBlock.GameMap[i][j]==149)
+        {   if((myBlock.GameMap[i][j]>=50&&myBlock.GameMap[i][j]<=58)||myBlock.GameMap[i][j]==149)
             {
 
 
@@ -182,84 +181,80 @@ if(flag==1)
 void  MainWindow::mouseReleaseEvent(QMouseEvent *event)
 
 {
+    //打开计时器
+    mTimer->start(1000);
+    kTimer->start(0);
 
     //释放了左键
 QPoint P = event->pos();
     if(event->button()==Qt::LeftButton)
 
     {
-
-//    if(bl.GameMap[(P.y()-30) / 20][(P.x()-30) / 20]==0)
- //   bl.GameMap[(P.y()-30) / 20][(P.x()-30) / 20]=1000;
-        //假设扫雷的棋盘从窗口的（30,30）开始，到（390,350）
-        //则每个小格的大小是 宽 20 =（390-30）/18，高 20=（310-30）/14
-
-       myBlock.Click((P.y()-50) / 20,(P.x()-30) / 20);                                             //<<<<<<<<这里改了一下，调了下行列的位置，原来的是错的
-
+        myBlock.Click((P.y()-50) / 20,(P.x()-30) / 20);    //<<<<<<<<这里改了一下，调了下行列的位置，原来的是错的
         qDebug() << (P.x()-30) / 20 <<" "<< (P.y()-50) / 20<<" "<<myBlock.GameMap[(P.y()-50) / 20][(P.x()-30) / 20];
-
-        /*测试
-
-        for(int i=0;i<14;i++)
-
-        {
-
-            for(int j=0;j<18;j++)
-
-            {
-
-                qDebug()<<myBlock.GameMap[i][j]<<" ";
-
-            }
-
-            qDebug()<<endl;
-
-        }
-
-        */
-
+        handleGameState();
     }
-
-
-
     //释放了右键
-
     if(event->button()==Qt::RightButton)
-
-    {if(myBlock.GameMap[(P.y()-50) / 20][(P.x()-30) / 20]>=0&&myBlock.GameMap[(P.y()-50) / 20][(P.x()-30) / 20]<=8||myBlock.GameMap[(P.y()-50) / 20][(P.x()-30) / 20]==99)
+    {
+        if((myBlock.GameMap[(P.y()-50) / 20][(P.x()-30) / 20]>=0&&myBlock.GameMap[(P.y()-50) / 20][(P.x()-30) / 20]<=8)||myBlock.GameMap[(P.y()-50) / 20][(P.x()-30) / 20]==99)
             myBlock.GameMap[(P.y()-50) / 20][(P.x()-30) / 20]+=50;
-      else if(myBlock.GameMap[(P.y()-50) / 20][(P.x()-30) / 20]>=50&&myBlock.GameMap[(P.y()-50) / 20][(P.x()-30) / 20]<=58||myBlock.GameMap[(P.y()-50) / 20][(P.x()-30) / 20]==149)
+        else if(myBlock.GameMap[(P.y()-50) / 20][(P.x()-30) / 20]>=50&&myBlock.GameMap[(P.y()-50) / 20][(P.x()-30) / 20]<=58||myBlock.GameMap[(P.y()-50) / 20][(P.x()-30) / 20]==149)
             myBlock.GameMap[(P.y()-50) / 20][(P.x()-30) / 20]-=50;
-        //todo
-
+        handleGameState();
     }
-    //更新绘图事件
+}
+void MainWindow::updateGameTime()
+{
+    myBlock.GameTime++;
+    qDebug()<<myBlock.GameTime;
+}
+//处理游戏状态的函数
+void MainWindow::handleGameState()
+{
+    myBlock.Win();
+    if(myBlock.gamestate == WIN)
+    {
+        mTimer->stop();
+        qDebug()<<"你赢了！";
+        myBlock.restartGame();
+    }
+    else if(myBlock.gamestate==OVER)
+    {
+        mTimer->stop();
+        qDebug()<<"你输了！";
+        update();
+        myBlock.restartGame();
+    }
     update();
 }
+
 //开始游戏的槽
 void MainWindow::on_pushButton_clicked()
 {
-    //在点击开始游戏后，开始计时器。
-    mTimer->start();
-    //重新定义bl对象
-    block mbl;
-    bl=mbl;
+    qDebug()<<"重新开始";
+    myBlock.restartGame();
+    //更新游戏绘图
+    update();
 }
 //退出游戏的槽函数
 void MainWindow::on_pushButton_2_clicked()
 {
+    qDebug()<<"退出游戏";
     QCoreApplication::quit();
 }
+//显示红旗数目的槽函数
 void MainWindow::on_lcdNumber_2_overflow()
 {
     //对lcdnumber时间的显示样式做出修改
+    myBlock.FlagNumber();
     // 设置位数
     ui->lcdNumber_2->setDigitCount(4);
     // 设置显示外观
     ui->lcdNumber_2->setSegmentStyle(QLCDNumber::Flat);
     // 设置样式
     ui->lcdNumber_2->setStyleSheet("border: 1px solid green; color: green; background: silver;");
-    ui->lcdNumber_2->display(0);
+    ui->lcdNumber_2->display(myBlock.Flag);
 
 
 }
@@ -273,5 +268,5 @@ void MainWindow::on_lcdNumber_overflow()
     ui->lcdNumber->setSegmentStyle(QLCDNumber::Flat);
     // 设置样式
     ui->lcdNumber->setStyleSheet("border: 1px solid green; color: green; background: silver;");
-    ui->lcdNumber->display(0);
+    ui->lcdNumber->display(myBlock.GameTime);
 }
