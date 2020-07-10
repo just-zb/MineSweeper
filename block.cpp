@@ -89,49 +89,49 @@ void block::Click(int i, int j){
         {
             Click(i-1,j-1);
             GameMap[i-1][j-1]+=100;
-            if(GameMap[i-1][j-1]>=200) GameMap[i-1][j-1]-=100;
+            if(GameMap[i-1][j-1]>=150) GameMap[i-1][j-1]-=100;
         }
         if((i-1)>=0 && GameMap[i-1][j]!=100)
         {
             Click(i-1,j);
             GameMap[i-1][j]+=100;
-            if(GameMap[i-1][j]>=200) GameMap[i-1][j]-=100;
+            if(GameMap[i-1][j]>=150) GameMap[i-1][j]-=100;
         }
         if((i-1)>=0 && (j+1)<18 && GameMap[i-1][j+1]!=100)
         {
             Click(i-1,j+1);
             GameMap[i-1][j+1]+=100;
-            if(GameMap[i-1][j+1]>=200) GameMap[i-1][j+1]-=100;
+            if(GameMap[i-1][j+1]>=150) GameMap[i-1][j+1]-=100;
         }
         if((j-1)>=0 && GameMap[i][j-1]!=100)
         {
             Click(i,j-1);
             GameMap[i][j-1]+=100;
-            if(GameMap[i][j-1]>=200) GameMap[i][j-1]-=100;
+            if(GameMap[i][j-1]>=150) GameMap[i][j-1]-=100;
         }
         if((j+1)<18 && GameMap[i][j+1]!=100)
         {
             Click(i,j+1);
             GameMap[i][j+1]+=100;
-            if(GameMap[i][j+1]>=200) GameMap[i][j+1]-=100;
+            if(GameMap[i][j+1]>=150) GameMap[i][j+1]-=100;
         }
         if((i+1)<14 && (j-1)>=0 && GameMap[i+1][j-1]!=100)
         {
             Click(i+1,j-1);
             GameMap[i+1][j-1]+=100;
-            if(GameMap[i+1][j-1]>=200) GameMap[i+1][j-1]-=100;
+            if(GameMap[i+1][j-1]>=150) GameMap[i+1][j-1]-=100;
         }
         if((i+1)<14 && GameMap[i+1][j]!=100)
         {
             Click(i+1,j);
             GameMap[i+1][j]+=100;
-            if(GameMap[i+1][j]>=200) GameMap[i+1][j]-=100;
+            if(GameMap[i+1][j]>=150) GameMap[i+1][j]-=100;
         }
         if((i+1)<14 && (j+1)<18 && GameMap[i+1][j+1]!=100)
         {
             Click(i+1,j+1);
             GameMap[i+1][j+1]+=100;
-            if(GameMap[i+1][j+1]>=200) GameMap[i+1][j+1]-=100;
+            if(GameMap[i+1][j+1]>=150) GameMap[i+1][j+1]-=100;
         }
     }
 }
