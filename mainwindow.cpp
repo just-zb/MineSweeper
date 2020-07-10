@@ -65,11 +65,13 @@ for(int i=0;i<14;i++)
 if(flag==1)
 {   for(int i=0;i<14;i++)//测试时，用黑色显示地雷的位置，解决递归问题和贴图问题后用贴图代替
     {   for(int j=0;j<18;j++)
-        {   if(myBlock.GameMap[i][j]==199||myBlock.GameMap[i][j]==99)
+        {   if(myBlock.GameMap[i][j]==199)
             {  for(int k=0;k<14;k++)
                {    for(int l=0;l<18;l++)
-                    {   if(myBlock.GameMap[k][l]==199||myBlock.GameMap[k][l]==99)
-                        p.drawPixmap(30+l*20,55+k*20,img02,0,0,20,20);
+                    {   if(myBlock.GameMap[k][l]==199||myBlock.GameMap[k][l]==99||myBlock.GameMap[k][l]==149)
+                        {   myBlock.GameMap[k][l]=199;
+                            p.drawPixmap(30+l*20,55+k*20,img02,0,0,20,20);
+                        }
                     }
                }
                 p.drawText(30,390,tr("Gmae Over"));
@@ -158,7 +160,7 @@ if(flag==1)
     }*/
     for(int i=0;i<14;i++)//鼠标右键点击后变为900，测试用
     {   for(int j=0;j<18;j++)
-        {   if(myBlock.GameMap[i][j]==900)
+        {   if(myBlock.GameMap[i][j]>=50&&myBlock.GameMap[i][j]<=60||myBlock.GameMap[i][j]==149)
             {
 
 
@@ -224,12 +226,13 @@ QPoint P = event->pos();
 
     if(event->button()==Qt::RightButton)
 
-   // {if(myBlock.GameMap[(P.y()-50) / 20][(P.x()-30) / 20]==0)
-            myBlock.GameMap[(P.y()-50) / 20][(P.x()-30) / 20]=900;
-
+    {if(myBlock.GameMap[(P.y()-50) / 20][(P.x()-30) / 20]>=0&&myBlock.GameMap[(P.y()-50) / 20][(P.x()-30) / 20]<=8||myBlock.GameMap[(P.y()-50) / 20][(P.x()-30) / 20]==99)
+            myBlock.GameMap[(P.y()-50) / 20][(P.x()-30) / 20]+=50;
+      else if(myBlock.GameMap[(P.y()-50) / 20][(P.x()-30) / 20]>=50&&myBlock.GameMap[(P.y()-50) / 20][(P.x()-30) / 20]<=58||myBlock.GameMap[(P.y()-50) / 20][(P.x()-30) / 20]==149)
+            myBlock.GameMap[(P.y()-50) / 20][(P.x()-30) / 20]-=50;
         //todo
 
-   // }
+    }
     //更新绘图事件
     update();
 }
