@@ -27,6 +27,7 @@ public:
     void Win();
     //点击函数
     void Click(int i,int j);
+    void Click0(int i,int j);
     void FlagNumber();
 };
 
