@@ -9,6 +9,7 @@
 #include<QPixmap>
 
 
+block myBlock;
 MainWindow::MainWindow(QWidget *parent) :
 
     QMainWindow(parent),
@@ -21,8 +22,8 @@ MainWindow::MainWindow(QWidget *parent) :
     //设置计时器
     mTimer->setInterval(1000);
     //关联信号槽
-        connect(mTimer,SIGNAL(timeout()),this,on_lcdNumber_2_overflow(););
-        connect(mTimer,SIGNAL(timeout()),this,on_lcdNumber_overflow(););
+ //       connect(mTimer,SIGNAL(timeout()),this,on_lcdNumber_2_overflow(););
+//        connect(mTimer,SIGNAL(timeout()),this,on_lcdNumber_overflow(););
 
 }
 
@@ -39,93 +40,135 @@ MainWindow::~MainWindow()
 
 void MainWindow::paintEvent(QPaintEvent *event)
 
-{
-    QPixmap flagimage;
-    flagimage.load(":/Resources/new/prefix1/flag.jpg");//原本用于贴图
+{   int flag=0;
+    QPixmap img01(":/flag01.png");
+    QPixmap img02(":/mine.png");
+
 
 
 QPainter p(this);
 p.setBrush(QBrush(Qt::white,Qt::SolidPattern));//设置主窗口背景色调为白色
 p.drawRect(0,0,400,400);//使用上面的白色笔刷来绘制该像素区（x,y,wideth,height)
-p.fillRect(30,30,360,280,Qt::blue);//填充该像素区，和上面一种函数大同小异
+p.fillRect(30,55,360,280,Qt::blue);//填充该像素区，和上面一种函数大同小异
 QFont font1;//设置字体
 font1.setPixelSize(15);//字体大小
 font1.setLetterSpacing(QFont::AbsoluteSpacing,0);
 
+
 p.setFont(font1);//使用字体
-for(int i=0;i<14;i++)//测试时，用黑色显示地雷的位置，解决递归问题和贴图问题后用贴图代替
+for(int i=0;i<14;i++)
 {   for(int j=0;j<18;j++)
-    {   if(bl.GameMap[i][j]==99)
-            p.fillRect(30+j*20,30+i*20,20,20,Qt::black);
-   }
+    {   if(myBlock.GameMap[i][j]==199)
+            flag=1;
+    }
+}
+if(flag==1)
+{   for(int i=0;i<14;i++)//测试时，用黑色显示地雷的位置，解决递归问题和贴图问题后用贴图代替
+    {   for(int j=0;j<18;j++)
+        {   if(myBlock.GameMap[i][j]==199||myBlock.GameMap[i][j]==99)
+            {  for(int k=0;k<14;k++)
+               {    for(int l=0;l<18;l++)
+                    {   if(myBlock.GameMap[k][l]==199||myBlock.GameMap[k][l]==99)
+                        p.drawPixmap(30+l*20,55+k*20,img02,0,0,20,20);
+                    }
+               }
+                p.drawText(30,390,tr("Gmae Over"));
+            }
+
+
+
+
+        }
+    }
+
 }
 
 //p.drawPixmap(0,0,30,30,flagimage);
     for(int i=0;i<14;i++)//显示数字
     {   for(int j=0;j<18;j++)
-        {   if(bl.GameMap[i][j]>=100&&bl.GameMap[i][j]<500)
-                 p.fillRect(30+j*20,30+i*20,20,20,Qt::gray);
-                if(bl.GameMap[i][j]==101)
-                    p.drawText(30+j*20,50+i*20,tr(" 1"));
-                else if(bl.GameMap[i][j]==102)
-                    p.drawText(30+j*20,50+i*20,tr(" 2"));
-                else if(bl.GameMap[i][j]==103)
-                    p.drawText(30+j*20,50+i*20,tr(" 3"));
-                else if(bl.GameMap[i][j]==104)
-                    p.drawText(30+j*20,50+i*20,tr(" 4"));
-                else if(bl.GameMap[i][j]==105)
-                    p.drawText(30+j*20,50+i*20,tr(" 5"));
-                else if(bl.GameMap[i][j]==106)
-                    p.drawText(30+j*20,50+i*20,tr(" 6"));
-                else if(bl.GameMap[i][j]==107)
-                    p.drawText(30+j*20,50+i*20,tr(" 7"));
-                else if(bl.GameMap[i][j]==108)
-                    p.drawText(30+j*20,50+i*20,tr(" 8"));
+        {   if(myBlock.GameMap[i][j]>=100&&myBlock.GameMap[i][j]<110)
+            { p.fillRect(30+j*20,55+i*20,20,20,Qt::gray);
+                if(myBlock.GameMap[i][j]==101)
+                {   p.setPen(Qt::black);//设置不同数字对应的颜色
+                    p.drawText(30+j*20,70+i*20,tr(" 1"));}
+                else if(myBlock.GameMap[i][j]==102)
+                {   p.setPen(Qt::yellow);
+                    p.drawText(30+j*20,70+i*20,tr(" 2"));}
+                else if(myBlock.GameMap[i][j]==103)
+                {   p.setPen(Qt::red);
+                    p.drawText(30+j*20,70+i*20,tr(" 3"));}
+                else if(myBlock.GameMap[i][j]==104)
+                {   p.setPen(Qt::red);
+                    p.drawText(30+j*20,70+i*20,tr(" 4"));}
+                else if(myBlock.GameMap[i][j]==105)
+                {   p.setPen(Qt::red);
+                    p.drawText(30+j*20,70+i*20,tr(" 5"));}
+                else if(myBlock.GameMap[i][j]==106)
+                {   p.setPen(Qt::red);
+                    p.drawText(30+j*20,70+i*20,tr(" 6"));}
+                else if(myBlock.GameMap[i][j]==107)
+                {   p.setPen(Qt::red);
+                    p.drawText(30+j*20,70+i*20,tr(" 7"));}
+                else if(myBlock.GameMap[i][j]==108)
+                {   p.setPen(Qt::red);
+                    p.drawText(30+j*20,70+i*20,tr(" 8"));}
+                else if(myBlock.GameMap[i][j]==100)
+                    p.drawText(30+j*20,70+i*20,tr("  "));
+            }
         }
     }
-    for(int i=0;i<14;i++)//测试时显示数字
+/*   for(int i=0;i<14;i++)//测试时显示数字
     {   for(int j=0;j<18;j++)
-        {   if(bl.GameMap[i][j]<100)
+        {   if(myBlock.GameMap[i][j]<100)
             {
-                if(bl.GameMap[i][j]==1)
-                    p.drawText(30+j*20,50+i*20,tr(" 1"));
-                else if(bl.GameMap[i][j]==2)
-                    p.drawText(30+j*20,50+i*20,tr(" 2"));
-                else if(bl.GameMap[i][j]==3)
-                    p.drawText(30+j*20,50+i*20,tr(" 3"));
-                else if(bl.GameMap[i][j]==4)
-                    p.drawText(30+j*20,50+i*20,tr(" 4"));
-                else if(bl.GameMap[i][j]==5)
-                    p.drawText(30+j*20,50+i*20,tr(" 5"));
-                else if(bl.GameMap[i][j]==6)
-                    p.drawText(30+j*20,50+i*20,tr(" 6"));
-                else if(bl.GameMap[i][j]==7)
-                    p.drawText(30+j*20,50+i*20,tr(" 7"));
-                else if(bl.GameMap[i][j]==8)
-                    p.drawText(30+j*20,50+i*20,tr(" 8"));
+                if(myBlock.GameMap[i][j]==1)
+                    p.drawText(30+j*20,70+i*20,tr(" 1"));
+                else if(myBlock.GameMap[i][j]==2)
+                    p.drawText(30+j*20,70+i*20,tr(" 2"));
+                else if(myBlock.GameMap[i][j]==3)
+                    p.drawText(30+j*20,70+i*20,tr(" 3"));
+                else if(myBlock.GameMap[i][j]==4)
+                    p.drawText(30+j*20,70+i*20,tr(" 4"));
+                else if(myBlock.GameMap[i][j]==5)
+                    p.drawText(30+j*20,70+i*20,tr(" 5"));
+                else if(myBlock.GameMap[i][j]==6)
+                    p.drawText(30+j*20,70+i*20,tr(" 6"));
+                else if(myBlock.GameMap[i][j]==7)
+                    p.drawText(30+j*20,70+i*20,tr(" 7"));
+                else if(myBlock.GameMap[i][j]==8)
+                    p.drawText(30+j*20,70+i*20,tr(" 8"));
+                else if(myBlock.GameMap[i][j]==0)
+                    p.drawText(30+j*20,70+i*20,tr(" 0"));
                }
         }
-    }
+    }*/
 
-    for(int i=0;i<14;i++)//贴图用，未起作用
+
+  /*  for(int i=0;i<14;i++)//贴图用，未起作用
     {   for(int j=0;j<18;j++)
-        {   if(bl.GameMap[i][j]>=50&&bl.GameMap[i][j]<=58)
-                p.drawPixmap(30+j*20,50+i*20,flagimage);
+        {   if(myBlock.GameMap[i][j]>=50&&myBlock.GameMap[i][j]<=58)
+                p.drawImage(30+j*20,50+i*20,img01);
         }
-    }
-    for(int i=0;i<14;i++)//鼠标左键点击后变为1000，测试用
+    }*/
+  /*  for(int i=0;i<14;i++)//鼠标左键点击后变为1000，测试用
     {   for(int j=0;j<18;j++)
-        {   if(bl.GameMap[i][j]==1000)
+        {   if(myBlock.GameMap[i][j]==1000)
                p.fillRect(30+j*20,30+i*20,20,20,Qt::gray);
        }
-    }
+    }*/
     for(int i=0;i<14;i++)//鼠标右键点击后变为900，测试用
     {   for(int j=0;j<18;j++)
-        {   if(bl.GameMap[i][j]==900)
-               p.fillRect(30+j*20,30+i*20,20,20,Qt::yellow);
+        {   if(myBlock.GameMap[i][j]==900)
+            {
+
+
+                p.drawPixmap(30+j*20,55+i*20,img01,0,0,20,20);
+
+             // p.fillRect(30+j*20,55+i*20,20,20,Qt::yellow);
+             }
        }
     }
-    
+
 }
 
 
@@ -144,14 +187,14 @@ QPoint P = event->pos();
 
     {
 
-    if(bl.GameMap[(P.y()-30) / 20][(P.x()-30) / 20]==0)
-    bl.GameMap[(P.y()-30) / 20][(P.x()-30) / 20]=1000;
+//    if(bl.GameMap[(P.y()-30) / 20][(P.x()-30) / 20]==0)
+ //   bl.GameMap[(P.y()-30) / 20][(P.x()-30) / 20]=1000;
         //假设扫雷的棋盘从窗口的（30,30）开始，到（390,350）
         //则每个小格的大小是 宽 20 =（390-30）/18，高 20=（310-30）/14
 
-        bl.Click((P.y()-30) / 20,(P.x()-30) / 20);                                             //<<<<<<<<这里改了一下，调了下行列的位置，原来的是错的
+       myBlock.Click((P.y()-50) / 20,(P.x()-30) / 20);                                             //<<<<<<<<这里改了一下，调了下行列的位置，原来的是错的
 
-        qDebug() << (P.x()-30) / 20 <<" "<< (P.y()-30) / 20;
+        qDebug() << (P.x()-30) / 20 <<" "<< (P.y()-50) / 20<<" "<<myBlock.GameMap[(P.y()-50) / 20][(P.x()-30) / 20];
 
         /*测试
 
@@ -181,12 +224,12 @@ QPoint P = event->pos();
 
     if(event->button()==Qt::RightButton)
 
-    {if(bl.GameMap[(P.y()-30) / 20][(P.x()-30) / 20]==0)
-            bl.GameMap[(P.y()-30) / 20][(P.x()-30) / 20]=900;
+   // {if(myBlock.GameMap[(P.y()-50) / 20][(P.x()-30) / 20]==0)
+            myBlock.GameMap[(P.y()-50) / 20][(P.x()-30) / 20]=900;
 
         //todo
 
-    }
+   // }
     //更新绘图事件
     update();
 }

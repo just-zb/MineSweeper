@@ -8,6 +8,8 @@
 #include <QMouseEvent>
 #include "block.h"
 #include<QPaintEvent>
+#include<QLCDNumber>
+#include<QTimer>
 
 namespace Ui {
 class MainWindow;
@@ -36,9 +38,9 @@ public:
 private:
     Ui::MainWindow *ui;
     //定义m_pLCD来展示时间
-    QLCDNumber m_pLCD = new QLCDNumber(this);
+    QLCDNumber *m_pLCD = new QLCDNumber(this);
     //放置定时器实现LCD的每秒刷新
-    QTimer* mTimer=new QTimer(this);
+    QTimer *mTimer=new QTimer(this);
 private slots:
     void on_pushButton_clicked();
     void on_pushButton_2_clicked();
@@ -47,3 +49,4 @@ private slots:
 };
 
 #endif // MAINWINDOW_H
+
