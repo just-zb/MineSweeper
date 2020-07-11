@@ -45,7 +45,7 @@
     <string/>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton">
+  <widget class="QPushButton" name="dialog_1_pushButton">
    <property name="geometry">
     <rect>
      <x>20</x>
@@ -58,7 +58,7 @@
     <string>再来一盘</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_2">
+  <widget class="QPushButton" name="dialog_1_pushButton_2">
    <property name="geometry">
     <rect>
      <x>20</x>

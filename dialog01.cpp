@@ -6,19 +6,21 @@ Dialog01::Dialog01(QWidget *parent) :
     ui(new Ui::Dialog01)
 {
     ui->setupUi(this);
-    connect(ui->pushButton,SIGNAL(clicked()),this,SLOT(on_pushButton_clicked()));
-    connect(ui->pushButton_2,SIGNAL(clicked()),this,SLOT(on_pushButton_2_clicked()));
+    connect(ui->dialog_1_pushButton,SIGNAL(clicked()),this,SLOT(on_1_pushButton_clicked()));
+    connect(ui->dialog_1_pushButton_2,SIGNAL(clicked()),this,SLOT(on_1_pushButton_2_clicked()));
 }
 
 Dialog01::~Dialog01()
 {
     delete ui;
 }
-void Dialog01::on_pushBotton_clicked()
+void Dialog01::on_1_pushButton_clicked()
 {
-    emit signal_1();
+    emit mvsigsendata_1();
+
 }
-void Dialog01::on_pushBotton_2_clicked()
+void Dialog01::on_1_pushButton_2_clicked()
 {
-    emit signal_2();
+    emit  mvsigsendata_2();
+
 }

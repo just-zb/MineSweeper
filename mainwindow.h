@@ -30,7 +30,7 @@ public:
     //定义获取当前地图状况的函数
     void CurrentMap(block*b);
     //绘制界面函数
-    void paintEvent(QPaintEvent*event);
+    void paintEvent(QPaintEvent *event);
     void handleGameState();
 private:
     Ui::MainWindow *ui;
@@ -40,10 +40,10 @@ private:
     Dialog01 *dialog01;
     Dialog02 *dialog02;
 public slots:
-    void on_pushButton_5_clicked();
-    void on_pushButton_6_clicked();
-    void on_dialog_1_pushButton_5_clicked();
-    void on_dialog_1_pushButton_6_clicked();
+    void on_dialog_2_pushButton_clicked();
+    void on_dialog_2_pushButton_2_clicked();
+    void on_dialog_1_pushButton_clicked();
+    void on_dialog_1_pushButton_2_clicked();
 private slots:
     void on_pushButton_clicked();
     void on_pushButton_2_clicked();

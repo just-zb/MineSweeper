@@ -199,7 +199,7 @@ QPoint P = event->pos();
     {
         if((myBlock.GameMap[(P.y()-50) / 20][(P.x()-30) / 20]>=0&&myBlock.GameMap[(P.y()-50) / 20][(P.x()-30) / 20]<=8)||myBlock.GameMap[(P.y()-50) / 20][(P.x()-30) / 20]==99)
             myBlock.GameMap[(P.y()-50) / 20][(P.x()-30) / 20]+=50;
-        else if(myBlock.GameMap[(P.y()-50) / 20][(P.x()-30) / 20]>=50&&myBlock.GameMap[(P.y()-50) / 20][(P.x()-30) / 20]<=58||myBlock.GameMap[(P.y()-50) / 20][(P.x()-30) / 20]==149)
+        else if((myBlock.GameMap[(P.y()-50) / 20][(P.x()-30) / 20]>=50&&myBlock.GameMap[(P.y()-50) / 20][(P.x()-30) / 20]<=58)||myBlock.GameMap[(P.y()-50) / 20][(P.x()-30) / 20]==149)
             myBlock.GameMap[(P.y()-50) / 20][(P.x()-30) / 20]-=50;
         handleGameState();
     }
@@ -222,8 +222,8 @@ void MainWindow::handleGameState()
         dialog01->setModal(false);
         dialog01->resize(300,300);
         dialog01->show();
-        connect(dialog01,SIGNAL(signal_1()),this,SLOT(on_dialog_1_pushButton_5_clicked()));
-        connect(dialog01,SIGNAL(signal_2()),this,SLOT(on_dialog_1_pushButton_6_clicked()));
+        connect(dialog01,SIGNAL(mvsigsendata_1()),this,SLOT(on_dialog_1_pushButton_clicked()));
+        connect(dialog01,SIGNAL(mvsigsendata_2()),this,SLOT(on_dialog_1_pushButton_2_clicked()));
         //delete dialog01;
     }
     else if(myBlock.gamestate==OVER)
@@ -237,37 +237,37 @@ void MainWindow::handleGameState()
         dialog02->resize(150,200);
         dialog02->show();
  //       connect(dialog02,SIGNAL(mvsigsendata()),this,SLOT(on_pushButton_5_clicked));
-        connect(dialog02,SIGNAL(mvsigsendata_1()),this,SLOT(on_pushButton_5_clicked()));//子窗口的再来一盘实现再来一盘
-        connect(dialog02,SIGNAL(mvsigsendata_2()),this,SLOT(on_pushButton_6_clicked()));//子窗口的退出游戏实现退出游戏
+        connect(dialog02,SIGNAL(mvsigsendata_1()),this,SLOT(on_dialog_2_pushButton_clicked()));//子窗口的再来一盘实现再来一盘
+        connect(dialog02,SIGNAL(mvsigsendata_2()),this,SLOT(on_dialog_2_pushButton_2_clicked()));//子窗口的退出游戏实现退出游戏
 
         //delete dialog02;
     }
     update();
 }
-void MainWindow::on_dialog_1_pushButton_5_clicked()
+void MainWindow::on_dialog_1_pushButton_clicked()
 {
     delete dialog01;
     myBlock.restartGame();
     qDebug()<<"success";
     update();
-    return;
+
 }
-void MainWindow::on_dialog_1_pushButton_6_clicked()
+void MainWindow::on_dialog_1_pushButton_2_clicked()
 {
     delete dialog01;
      QCoreApplication::quit();
 
 
 }
-void MainWindow::on_pushButton_5_clicked()
+void MainWindow::on_dialog_2_pushButton_clicked()
 {
     delete dialog02;
     myBlock.restartGame();
     qDebug()<<"success";
     update();
-    return;
+
 }
-void MainWindow::on_pushButton_6_clicked()
+void MainWindow::on_dialog_2_pushButton_2_clicked()
 {
     delete dialog02;
      QCoreApplication::quit();

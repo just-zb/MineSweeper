@@ -15,11 +15,11 @@ public:
     explicit Dialog01(QWidget *parent = 0);
     ~Dialog01();
 signals:
-    void signal_1();
-    void signal_2();
+    void mvsigsendata_1();
+    void mvsigsendata_2();
 private slots:
-    void on_pushBotton_clicked();
-    void on_pushBotton_2_clicked();
+    void on_1_pushButton_clicked();
+    void on_1_pushButton_2_clicked();
 private:
     Ui::Dialog01 *ui;
 };

@@ -21,8 +21,8 @@ signals:
 private slots:
 
 
-    void on_pushButton_4_clicked();
-    void on_pushButton_7_clicked();
+    void on_2_pushButton_clicked();
+    void on_2_pushButton_2_clicked();
 
 private:
     Ui::Dialog02 *ui;
