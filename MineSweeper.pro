@@ -28,18 +28,21 @@ SOURCES += \
         mainwindow.cpp \
     block.cpp \
     dialog01.cpp \
-    dialog02.cpp
+    dialog02.cpp \
+    dialog03.cpp
 
 HEADERS += \
         mainwindow.h \
     block.h \
     dialog01.h \
-    dialog02.h
+    dialog02.h \
+    dialog03.h
 
 FORMS += \
         mainwindow.ui \
     dialog01.ui \
-    dialog02.ui
+    dialog02.ui \
+    dialog03.ui
 
 RESOURCES += \
     resoures.qrc \

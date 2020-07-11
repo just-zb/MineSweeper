@@ -17,11 +17,11 @@ Dialog02::~Dialog02()
 
 
 
-void Dialog02::on_2_pushButton_clicked()
+void Dialog02::on_2_pushButton_clicked()//dialog02上的再来一盘的按钮。点击发送信号，下同
 {
     emit mvsigsendata_1();
 }
-void Dialog02::on_2_pushButton_2_clicked()
+void Dialog02::on_2_pushButton_2_clicked()//dialog02上的退出游戏按钮
 {
     emit mvsigsendata_2();
 }

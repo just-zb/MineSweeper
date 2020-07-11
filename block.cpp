@@ -3,28 +3,32 @@
 #include<time.h>
 
 #include<stdlib.h>
-
+#include<QDebug>
 
 
 block::block()
 
 {
-
-    GameMap[14][18]={0};
-
-    for(int i=0;i<14;i++)
-
+    row=14;
+    col=18;
+    num_of_mine=40;
+/*    GameMap=new int*[row];
+    for(int i=0;i<row;i++)
+        GameMap[i]=new int[col];
+    int count=0;
+    for(int i=0;i<row;i++)
     {
-
-        for(int j=0;j<18;j++)
-
-        {
-
+        for(int j=0;j<col;j++)
             GameMap[i][j]=0;
-
-        }
-
+    }*/
+    for(int i=0;i<100;i++)
+    {
+        for(int j=0;j<100;j++)
+            GameMap[i][j]=0;
     }
+
+
+
 
     MineNumber=40;
 
@@ -115,14 +119,134 @@ block::block()
     }
 
 }
+block::block(int r,int c,int m)
 
-void block::restartGame(){
+{
+    row=r;
+    col=c;
+    num_of_mine=m;
+/*    GameMap=new int*[row];
+    for(int i=0;i<row;i++)
+        GameMap[i]=new int[col];
+    int count=0;
+    for(int i=0;i<row;i++)
+    {
+        for(int j=0;j<col;j++)
+            GameMap[i][j]=0;
+    }*/
+    for(int i=0;i<100;i++)
+    {
+        for(int j=0;j<100;j++)
+            GameMap[i][j]=0;
+    }
 
-    block mblock;//重新定义一个对象生成随机数，然后将现在的游戏地图设置成mblock的地图
 
-    for(int i=0;i<14;i++){
+    MineNumber=m;
 
-        for(int j=0;j<18;j++){
+    Flag=0;
+
+    GameTime=0;//游戏时间的初始化
+
+    gamestate=PLAYING;
+
+    //随机布雷
+
+    srand((unsigned int)time(0));
+
+    int k=MineNumber;
+
+    while(k>0){
+
+        //生成随机数
+
+        int _row=rand()%row;
+
+        int _col=rand()%col;
+
+        if(GameMap[_row][_col]!=99)
+
+        {
+
+            GameMap[_row][_col]=99;
+
+            k--;
+
+        }
+
+    }
+
+    //计算每个方格的周围的雷数，该方格为雷除外
+
+    for(int i = 0; i < row; i++)
+
+    {
+
+        for(int j = 0; j < col; j++)
+
+        {
+
+            // y为行偏移量，x为列偏移量
+
+            if(GameMap[i][j]!=99)
+
+            {
+
+                for(int y = -1; y <= 1; y++)
+
+                {
+
+                    for(int x = -1; x <= 1; x++)
+
+                    {
+
+                        if(i + y >= 0
+
+                        && i + y < row
+
+                        && j + x >= 0
+
+                        && j + x < col
+
+                        && GameMap[i + y][j + x]==99
+
+                        && !(x == 0 && y == 0))
+
+                        {
+
+                            // 方块数字加1
+
+                            GameMap[i][j]++;
+
+                        }
+
+                    }
+
+                }
+
+            }
+
+        }
+
+    }
+
+}
+
+
+void block::restartGame(int r,int c,int m){
+    //~block();
+    // block(r,c,m);
+
+
+
+
+
+    block mblock(r,c,m);//重新定义一个对象生成随机数，然后将现在的游戏地图设置成mblock的地图
+    row=r;
+    col=c;
+    MineNumber=mblock.MineNumber;
+    for(int i=0;i<r;i++){
+
+        for(int j=0;j<c;j++){
 
             GameMap[i][j]=mblock.GameMap[i][j];
 
@@ -135,20 +259,21 @@ void block::restartGame(){
     Flag=0;
 
     GameTime=0;
+    qDebug()<<"重新开始"<<r<<" "<<c<<" "<<" "<<m;
 
 }
 
-void block::Win()
+void block::Win(int r,int c,int m)
 
 {   int flag=0;
 
 gamestate=PLAYING;
 
-for(int i=0;i<14;i++)
+for(int i=0;i<r;i++)
 
 {
 
-    for(int j=0;j<18;j++)
+    for(int j=0;j<c;j++)
 
     {
 
@@ -165,11 +290,11 @@ for(int i=0;i<14;i++)
 
 int sum=0;
 
-for(int i=0;i<14;i++)
+for(int i=0;i<r;i++)
 
 {
 
-    for(int j=0;j<18;j++)
+    for(int j=0;j<c;j++)
 
     {
 
@@ -181,21 +306,21 @@ for(int i=0;i<14;i++)
 
 }
 
-if(sum==14*18)
+if(sum==r*c)
 
     gamestate=WIN;
 
 }
 
-void block::FlagNumber(){
+void block::FlagNumber(int r,int c,int m){
 
     Flag=0;
 
-    for(int i=0;i<14;i++)
+    for(int i=0;i<r;i++)
 
     {
 
-        for(int j=0;j<18;j++)
+        for(int j=0;j<c;j++)
 
         {
 
@@ -209,7 +334,7 @@ void block::FlagNumber(){
 
 }
 
-void block::Click0(int i, int j){
+void block::Click0(int i, int j,int r,int c){
 
     //如果点击到为0的方格，就采用递归方法显示空白方格和空白方格周围的带有数字的方格
 
@@ -241,7 +366,7 @@ void block::Click0(int i, int j){
         if((i-1)>=0 && (j-1)>=0 && GameMap[i-1][j-1]!=100)
 
         {
-            Click0(i-1,j-1);
+            Click0(i-1,j-1,r,c);
 
             GameMap[i-1][j-1]+=100;
 
@@ -253,7 +378,7 @@ void block::Click0(int i, int j){
 
         {
 
-            Click0(i-1,j);
+            Click0(i-1,j,r,c);
 
             GameMap[i-1][j]+=100;
 
@@ -261,10 +386,10 @@ void block::Click0(int i, int j){
 
         }
 
-        if((i-1)>=0 && (j+1)<18 && GameMap[i-1][j+1]!=100)
+        if((i-1)>=0 && (j+1)<c && GameMap[i-1][j+1]!=100)
 
         {
-            Click0(i-1,j+1);
+            Click0(i-1,j+1,r,c);
 
             GameMap[i-1][j+1]+=100;
 
@@ -275,7 +400,7 @@ void block::Click0(int i, int j){
         if((j-1)>=0 && GameMap[i][j-1]!=100)
 
         {
-            Click0(i,j-1);
+            Click0(i,j-1,r,c);
 
             GameMap[i][j-1]+=100;
 
@@ -283,10 +408,10 @@ void block::Click0(int i, int j){
 
         }
 
-        if((j+1)<18 && GameMap[i][j+1]!=100)
+        if((j+1)<c && GameMap[i][j+1]!=100)
 
         {
-            Click0(i,j+1);
+            Click0(i,j+1,r,c);
 
             GameMap[i][j+1]+=100;
 
@@ -294,10 +419,10 @@ void block::Click0(int i, int j){
 
         }
 
-        if((i+1)<14 && (j-1)>=0 && GameMap[i+1][j-1]!=100)
+        if((i+1)<r && (j-1)>=0 && GameMap[i+1][j-1]!=100)
 
         {
-            Click0(i+1,j-1);
+            Click0(i+1,j-1,r,c);
 
             GameMap[i+1][j-1]+=100;
 
@@ -305,11 +430,11 @@ void block::Click0(int i, int j){
 
         }
 
-        if((i+1)<14 && GameMap[i+1][j]!=100)
+        if((i+1)<r && GameMap[i+1][j]!=100)
 
         {
 
-            Click0(i+1,j);
+            Click0(i+1,j,r,c);
           
             GameMap[i+1][j]+=100;
 
@@ -317,10 +442,10 @@ void block::Click0(int i, int j){
 
         }
 
-        if((i+1)<14 && (j+1)<18 && GameMap[i+1][j+1]!=100)
+        if((i+1)<r && (j+1)<c && GameMap[i+1][j+1]!=100)
 
         {
-            Click0(i+1,j+1);
+            Click0(i+1,j+1,r,c);
 
             GameMap[i+1][j+1]+=100;
 
@@ -334,7 +459,7 @@ void block::Click0(int i, int j){
 
 //原来的变成Click0，现在能实现点击已翻开的部分，监测周围标旗的数和雷数是否相同，如果相同将周围的棋格翻开
 
-void block::Click(int i, int j)
+void block::Click(int i, int j,int r,int c)
 
 {
 
@@ -356,7 +481,7 @@ void block::Click(int i, int j)
 
             {
 
-                if(i+x>=0 && j+y>=0 && i+x<14 && j+y<18)
+                if(i+x>=0 && j+y>=0 && i+x<r && j+y<c)
 
                 {
 
@@ -390,11 +515,11 @@ void block::Click(int i, int j)
 
                 {
 
-                    if(i+x>=0 && j+y>=0 && i+x<14 && j+y<18)
+                    if(i+x>=0 && j+y>=0 && i+x<r && j+y<c)
 
                     {
 
-                        Click0(i+x,j+y);
+                        Click0(i+x,j+y,r,c);
 
                     }
 
@@ -406,45 +531,6 @@ void block::Click(int i, int j)
 
     }
 
-    Click0(i,j);
+    Click0(i,j,r,c);
 
-}
-//原来的变成Click0，现在能实现点击已翻开的部分，监测周围标旗的数和雷数是否相同，如果相同将周围的棋格翻开
-void block::Click(int i, int j)
-{
-    if(GameMap[i][j]>=101 && GameMap[i][j]<=108)
-    {
-        int mine0 = 0;
-        int flag0_true = 0;
-        int flag0_false = 0;
-        for(int x=-1;x<2;x++)
-        {
-            for(int y=-1;y<2;y++)
-            {
-                if(i+x>=0 && j+y>=0 && i+x<14 && j+y<18)
-                {
-                    if(GameMap[i+x][j+y]==99)
-                        mine0++;
-                    if(GameMap[i+x][j+y]==149)
-                        flag0_true++;
-                    if(GameMap[i+x][j+y]>=51 && GameMap[i+x][j+y]<=58)
-                        flag0_false++;
-                }
-            }
-        }
-        if(mine0 == flag0_false)
-        {
-            for(int x=-1;x<2;x++)
-            {
-                for(int y=-1;y<2;y++)
-                {
-                    if(i+x>=0 && j+y>=0 && i+x<14 && j+y<18)
-                    {
-                        Click0(i+x,j+y);
-                    }
-                }
-            }
-        }
-    }
-    Click0(i,j);
 }

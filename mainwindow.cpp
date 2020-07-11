@@ -7,6 +7,7 @@
 #include "block.h"
 #include<QImage>
 #include<QPixmap>
+#include<QFrame>
 
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -38,57 +39,50 @@ MainWindow::~MainWindow()
 void MainWindow::paintEvent(QPaintEvent *event)
 
 {   int flag=0;
-    QPixmap img01(":/flag01.png");
+    QPixmap img01(":/flag01.png");//用于加载图片，旗子和地雷
     QPixmap img02(":/mine.png");
 
 
 
-QPainter p(this);
+QPainter p(this);//创建一个对象
 p.setBrush(QBrush(Qt::white,Qt::SolidPattern));//设置主窗口背景色调为白色
 p.drawRect(0,0,400,400);//使用上面的白色笔刷来绘制该像素区（x,y,wideth,height)
-p.fillRect(30,55,360,280,Qt::blue);//填充该像素区，和上面一种函数大同小异
+p.fillRect(30,55,myBlock.col*20,myBlock.row*20,Qt::blue);//填充该像素区，和上面一种函数大同小异
 QFont font1;//设置字体
 font1.setPixelSize(15);//字体大小
 font1.setLetterSpacing(QFont::AbsoluteSpacing,0);
 
-
 p.setFont(font1);//使用字体
-for(int i=0;i<14;i++)
-{   for(int j=0;j<18;j++)
+
+for(int i=0;i<myBlock.row;i++)//用于检测是否有雷被翻开
+{   for(int j=0;j<myBlock.col;j++)
     {   if(myBlock.GameMap[i][j]==199)
             flag=1;
     }
 }
-if(flag==1)
-{   for(int i=0;i<14;i++)//测试时，用黑色显示地雷的位置，解决递归问题和贴图问题后用贴图代替
-    {   for(int j=0;j<18;j++)
+if(flag==1)//如果有雷被翻开，就把地图上所有的雷翻开
+{   for(int i=0;i<myBlock.row;i++)
+    {   for(int j=0;j<myBlock.col;j++)
         {   if(myBlock.GameMap[i][j]==199)
-            {  for(int k=0;k<14;k++)
-               {    for(int l=0;l<18;l++)
+            {  for(int k=0;k<myBlock.row;k++)
+               {    for(int l=0;l<myBlock.col;l++)
                     {   if(myBlock.GameMap[k][l]==199||myBlock.GameMap[k][l]==99||myBlock.GameMap[k][l]==149)
                         {   myBlock.GameMap[k][l]=199;
                             p.drawPixmap(30+l*20,55+k*20,img02,0,0,20,20);
                         }
                     }
                }
-                p.drawText(30,390,tr("Game Over"));
-
-
             }
-
-
-
-
         }
     }
 
 }
 
-//p.drawPixmap(0,0,30,30,flagimage);
-    for(int i=0;i<14;i++)//显示数字
-    {   for(int j=0;j<18;j++)
+
+    for(int i=0;i<myBlock.row;i++)//用于在翻开后显示数字
+    {   for(int j=0;j<myBlock.col;j++)
         {   if(myBlock.GameMap[i][j]>=100&&myBlock.GameMap[i][j]<110)
-            { p.fillRect(30+j*20,55+i*20,20,20,Qt::gray);
+            { p.fillRect(30+j*20,55+i*20,20,20,Qt::gray);//设置翻开的方块为灰色
                 if(myBlock.GameMap[i][j]==101)
                 {   p.setPen(Qt::black);//设置不同数字对应的颜色
                     p.drawText(30+j*20,70+i*20,tr(" 1"));}
@@ -118,56 +112,34 @@ if(flag==1)
             }
         }
     }
-/*   for(int i=0;i<14;i++)//测试时显示数字
-    {   for(int j=0;j<18;j++)
-        {   if(myBlock.GameMap[i][j]<100)
-            {
-                if(myBlock.GameMap[i][j]==1)
-                    p.drawText(30+j*20,70+i*20,tr(" 1"));
-                else if(myBlock.GameMap[i][j]==2)
-                    p.drawText(30+j*20,70+i*20,tr(" 2"));
-                else if(myBlock.GameMap[i][j]==3)
-                    p.drawText(30+j*20,70+i*20,tr(" 3"));
-                else if(myBlock.GameMap[i][j]==4)
-                    p.drawText(30+j*20,70+i*20,tr(" 4"));
-                else if(myBlock.GameMap[i][j]==5)
-                    p.drawText(30+j*20,70+i*20,tr(" 5"));
-                else if(myBlock.GameMap[i][j]==6)
-                    p.drawText(30+j*20,70+i*20,tr(" 6"));
-                else if(myBlock.GameMap[i][j]==7)
-                    p.drawText(30+j*20,70+i*20,tr(" 7"));
-                else if(myBlock.GameMap[i][j]==8)
-                    p.drawText(30+j*20,70+i*20,tr(" 8"));
-                else if(myBlock.GameMap[i][j]==0)
-                    p.drawText(30+j*20,70+i*20,tr(" 0"));
-               }
-        }
-    }*/
 
-
-  /*  for(int i=0;i<14;i++)//贴图用，未起作用
-    {   for(int j=0;j<18;j++)
-        {   if(myBlock.GameMap[i][j]>=50&&myBlock.GameMap[i][j]<=58)
-                p.drawImage(30+j*20,50+i*20,img01);
-        }
-    }*/
-  /*  for(int i=0;i<14;i++)//鼠标左键点击后变为1000，测试用
-    {   for(int j=0;j<18;j++)
-        {   if(myBlock.GameMap[i][j]==1000)
-               p.fillRect(30+j*20,30+i*20,20,20,Qt::gray);
-       }
-    }*/
-    for(int i=0;i<14;i++)//鼠标右键点击后变为900，测试用
-    {   for(int j=0;j<18;j++)
+    for(int i=0;i<myBlock.row;i++)//鼠标右键点击后显示插旗子的效果
+    {   for(int j=0;j<myBlock.col;j++)
         {   if((myBlock.GameMap[i][j]>=50&&myBlock.GameMap[i][j]<=58)||myBlock.GameMap[i][j]==149)
             {
-
-
-                p.drawPixmap(30+j*20,55+i*20,img01,0,0,20,20);
-
-             // p.fillRect(30+j*20,55+i*20,20,20,Qt::yellow);
+                p.drawPixmap(30+j*20,55+i*20,img01,0,0,20,20);//进行旗子贴图
              }
        }
+    }
+    for(int i=0;i<=myBlock.row;i++)//绘制矩形框，并且根据设置的大小来绘制矩形框
+    {
+
+//绘制横线
+        p.setPen(Qt::white);//设置笔刷颜色
+        p.drawLine(30,55+i*20,30+myBlock.col*20,55+i*20);//用一黑一白来画线，达到阴影效果
+        p.setPen(Qt::black);
+        p.drawLine(30,56+i*20,30+myBlock.col*20,56+i*20);
+
+    }
+//绘制竖线，原理同上
+    for(int j=0;j<=myBlock.col;j++)
+    {
+
+       p.setPen(Qt::white);
+       p.drawLine(30+j*20,55,30+j*20,55+myBlock.row*20);
+       p.setPen(Qt::black);
+       p.drawLine(31+j*20,55,31+j*20,55+myBlock.row*20);
+
     }
 
 }
@@ -190,7 +162,7 @@ QPoint P = event->pos();
     if(event->button()==Qt::LeftButton)
 
     {
-        myBlock.Click((P.y()-50) / 20,(P.x()-30) / 20);    //<<<<<<<<这里改了一下，调了下行列的位置，原来的是错的
+        myBlock.Click((P.y()-50) / 20,(P.x()-30) / 20,myBlock.row,myBlock.col);    //<<<<<<<<这里改了一下，调了下行列的位置，原来的是错的
         qDebug() << (P.x()-30) / 20 <<" "<< (P.y()-50) / 20<<" "<<myBlock.GameMap[(P.y()-50) / 20][(P.x()-30) / 20];
         handleGameState();
     }
@@ -212,18 +184,18 @@ void MainWindow::updateGameTime()
 //处理游戏状态的函数
 void MainWindow::handleGameState()
 {
-    myBlock.Win();
+    myBlock.Win(myBlock.row,myBlock.col,myBlock.num_of_mine);
     if(myBlock.gamestate == WIN)
     {
         mTimer->stop();
         qDebug()<<"你赢了！";
        // myBlock.restartGame();
-        dialog01=new Dialog01(this);
+        dialog01=new Dialog01(this);//在达到胜利状态时，弹出提示胜利的窗口
         dialog01->setModal(false);
         dialog01->resize(300,300);
         dialog01->show();
-        connect(dialog01,SIGNAL(mvsigsendata_1()),this,SLOT(on_dialog_1_pushButton_clicked()));
-        connect(dialog01,SIGNAL(mvsigsendata_2()),this,SLOT(on_dialog_1_pushButton_2_clicked()));
+        connect(dialog01,SIGNAL(mvsigsendata_1()),this,SLOT(on_dialog_1_pushButton_clicked()));//将子窗口的再来一盘信号和下面的一个槽连接起来
+        connect(dialog01,SIGNAL(mvsigsendata_2()),this,SLOT(on_dialog_1_pushButton_2_clicked()));//将子窗口的退出游戏信号和下面的一个槽连接起来
         //delete dialog01;
     }
     else if(myBlock.gamestate==OVER)
@@ -232,7 +204,7 @@ void MainWindow::handleGameState()
         qDebug()<<"你输了！";
 
         //myBlock.restartGame();
-        dialog02=new Dialog02(this);
+        dialog02=new Dialog02(this);//游戏输掉的状态，弹出提示 游戏输掉的子窗口，其余大致同上
         dialog02->setModal(false);
         dialog02->resize(150,200);
         dialog02->show();
@@ -244,42 +216,51 @@ void MainWindow::handleGameState()
     }
     update();
 }
-void MainWindow::on_dialog_1_pushButton_clicked()
+void MainWindow::on_dialog_1_pushButton_clicked()//用于实现子窗口1的再来一盘
 {
     delete dialog01;
-    myBlock.restartGame();
+    myBlock.restartGame(myBlock.row,myBlock.col,myBlock.num_of_mine);
     qDebug()<<"success";
     update();
 
 }
-void MainWindow::on_dialog_1_pushButton_2_clicked()
+void MainWindow::on_dialog_1_pushButton_2_clicked()//用于实现子窗口1的退出游戏
 {
     delete dialog01;
      QCoreApplication::quit();
 
 
 }
-void MainWindow::on_dialog_2_pushButton_clicked()
+void MainWindow::on_dialog_2_pushButton_clicked()//用于实现子窗口2的再来一盘
 {
     delete dialog02;
-    myBlock.restartGame();
+    myBlock.restartGame(myBlock.row,myBlock.col,myBlock.num_of_mine);
     qDebug()<<"success";
     update();
 
 }
-void MainWindow::on_dialog_2_pushButton_2_clicked()
+void MainWindow::on_dialog_2_pushButton_2_clicked()//用于实现子窗口2的退出游戏
 {
     delete dialog02;
      QCoreApplication::quit();
 
 
+}
+void MainWindow::on_dialog_3_pushButton_clicked(int r,int c,int m)//用于实现子窗口3（也就是修改游戏棋盘大小的窗口）点击确定时主窗口重新绘制
+{
+    qDebug()<<"这个被点击了";
+
+    myBlock.restartGame(r, c,  m);
+
+
+    delete dialog03;
 }
 
 //开始游戏的槽
 void MainWindow::on_pushButton_clicked()
 {
     qDebug()<<"重新开始";
-    myBlock.restartGame();
+    myBlock.restartGame(myBlock.row,myBlock.col,myBlock.num_of_mine);
     //更新游戏绘图
     update();
 }
@@ -293,7 +274,7 @@ void MainWindow::on_pushButton_2_clicked()
 void MainWindow::on_lcdNumber_2_overflow()
 {
     //对lcdnumber时间的显示样式做出修改
-    myBlock.FlagNumber();
+    myBlock.FlagNumber(myBlock.row,myBlock.col,myBlock.num_of_mine);
     // 设置位数
     ui->lcdNumber_2->setDigitCount(4);
     // 设置显示外观
@@ -315,4 +296,17 @@ void MainWindow::on_lcdNumber_overflow()
     // 设置样式
     ui->lcdNumber->setStyleSheet("border: 1px solid green; color: green; background: silver;");
     ui->lcdNumber->display(myBlock.GameTime);
+}
+
+void MainWindow::on_pushButton_3_clicked()//创建子窗口3（也就是修改游戏棋盘大小的窗口）并且连接信号
+{
+    dialog03=new Dialog03(this);
+    dialog03->setModal(false);
+//    dialog03->resize(150,200);
+    dialog03->show();
+
+    connect(dialog03,SIGNAL(signal03(int,int,int)),this,SLOT(on_dialog_3_pushButton_clicked(int,int,int)));
+
+    qDebug()<<"信号传递？";
+
 }

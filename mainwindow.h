@@ -13,6 +13,7 @@
 #include<QDialog>
 #include"dialog01.h"
 #include"dialog02.h"
+#include"dialog03.h"
 namespace Ui {
 class MainWindow;
 }
@@ -39,17 +40,20 @@ private:
     QTimer *kTimer=new QTimer(this);
     Dialog01 *dialog01;
     Dialog02 *dialog02;
+    Dialog03 *dialog03;
 public slots:
     void on_dialog_2_pushButton_clicked();
     void on_dialog_2_pushButton_2_clicked();
     void on_dialog_1_pushButton_clicked();
     void on_dialog_1_pushButton_2_clicked();
+    void on_dialog_3_pushButton_clicked(int r, int c, int m);
 private slots:
     void on_pushButton_clicked();
     void on_pushButton_2_clicked();
     void on_lcdNumber_2_overflow();
     void on_lcdNumber_overflow();
     void updateGameTime();//更新时间
+    void on_pushButton_3_clicked();
 };
 
 #endif // MAINWINDOW_H
