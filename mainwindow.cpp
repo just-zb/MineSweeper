@@ -72,7 +72,7 @@ if(flag==1)
                     }
                }
                 p.drawText(30,390,tr("Game Over"));
-                handleGameState();
+
 
             }
 
@@ -217,16 +217,62 @@ void MainWindow::handleGameState()
     {
         mTimer->stop();
         qDebug()<<"你赢了！";
-        myBlock.restartGame();
+       // myBlock.restartGame();
+        dialog01=new Dialog01(this);
+        dialog01->setModal(false);
+        dialog01->resize(300,300);
+        dialog01->show();
+        connect(dialog01,SIGNAL(signal_1()),this,SLOT(on_dialog_1_pushButton_5_clicked()));
+        connect(dialog01,SIGNAL(signal_2()),this,SLOT(on_dialog_1_pushButton_6_clicked()));
+        //delete dialog01;
     }
     else if(myBlock.gamestate==OVER)
     {
         mTimer->stop();
         qDebug()<<"你输了！";
-        update();
-        myBlock.restartGame();
+
+        //myBlock.restartGame();
+        dialog02=new Dialog02(this);
+        dialog02->setModal(false);
+        dialog02->resize(150,200);
+        dialog02->show();
+ //       connect(dialog02,SIGNAL(mvsigsendata()),this,SLOT(on_pushButton_5_clicked));
+        connect(dialog02,SIGNAL(mvsigsendata_1()),this,SLOT(on_pushButton_5_clicked()));//子窗口的再来一盘实现再来一盘
+        connect(dialog02,SIGNAL(mvsigsendata_2()),this,SLOT(on_pushButton_6_clicked()));//子窗口的退出游戏实现退出游戏
+
+        //delete dialog02;
     }
     update();
+}
+void MainWindow::on_dialog_1_pushButton_5_clicked()
+{
+    delete dialog01;
+    myBlock.restartGame();
+    qDebug()<<"success";
+    update();
+    return;
+}
+void MainWindow::on_dialog_1_pushButton_6_clicked()
+{
+    delete dialog01;
+     QCoreApplication::quit();
+
+
+}
+void MainWindow::on_pushButton_5_clicked()
+{
+    delete dialog02;
+    myBlock.restartGame();
+    qDebug()<<"success";
+    update();
+    return;
+}
+void MainWindow::on_pushButton_6_clicked()
+{
+    delete dialog02;
+     QCoreApplication::quit();
+
+
 }
 
 //开始游戏的槽

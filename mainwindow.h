@@ -10,6 +10,9 @@
 #include<QPaintEvent>
 #include<QLCDNumber>
 #include<QTimer>
+#include<QDialog>
+#include"dialog01.h"
+#include"dialog02.h"
 namespace Ui {
 class MainWindow;
 }
@@ -34,6 +37,13 @@ private:
     //放置定时器实现GameTime和红旗的数目的每秒刷新
     QTimer *mTimer=new QTimer(this);
     QTimer *kTimer=new QTimer(this);
+    Dialog01 *dialog01;
+    Dialog02 *dialog02;
+public slots:
+    void on_pushButton_5_clicked();
+    void on_pushButton_6_clicked();
+    void on_dialog_1_pushButton_5_clicked();
+    void on_dialog_1_pushButton_6_clicked();
 private slots:
     void on_pushButton_clicked();
     void on_pushButton_2_clicked();

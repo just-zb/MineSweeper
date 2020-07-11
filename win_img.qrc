@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/">
+        <file>你赢了.png</file>
+        <file>你输了.png</file>
+        <file>恭喜.png</file>
+    </qresource>
+</RCC>

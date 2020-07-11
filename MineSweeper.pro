@@ -26,17 +26,25 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
         main.cpp \
         mainwindow.cpp \
-    block.cpp
+    block.cpp \
+    dialog01.cpp \
+    dialog02.cpp
 
 HEADERS += \
         mainwindow.h \
-    block.h
+    block.h \
+    dialog01.h \
+    dialog02.h
 
 FORMS += \
-        mainwindow.ui
+        mainwindow.ui \
+    dialog01.ui \
+    dialog02.ui
 
 RESOURCES += \
-    resoures.qrc
+    resoures.qrc \
+    win_img.qrc
 
 DISTFILES += \
     flag01
+RC_ICONS = myico.ico
