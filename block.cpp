@@ -225,8 +225,6 @@ void block::Click0(int i, int j){
 
     //如果数字在1~8或99都翻开（加100），已经插了旗的不做操作
 
-
-
     if((GameMap[i][j]>=1 && GameMap[i][j]<8) || GameMap[i][j]==99)
 
     {
@@ -234,7 +232,6 @@ void block::Click0(int i, int j){
         GameMap[i][j]+=100;
 
     }
-
     if(GameMap[i][j]==0)
 
     {
@@ -244,7 +241,6 @@ void block::Click0(int i, int j){
         if((i-1)>=0 && (j-1)>=0 && GameMap[i-1][j-1]!=100)
 
         {
-
             Click0(i-1,j-1);
 
             GameMap[i-1][j-1]+=100;
@@ -268,7 +264,6 @@ void block::Click0(int i, int j){
         if((i-1)>=0 && (j+1)<18 && GameMap[i-1][j+1]!=100)
 
         {
-
             Click0(i-1,j+1);
 
             GameMap[i-1][j+1]+=100;
@@ -280,7 +275,6 @@ void block::Click0(int i, int j){
         if((j-1)>=0 && GameMap[i][j-1]!=100)
 
         {
-
             Click0(i,j-1);
 
             GameMap[i][j-1]+=100;
@@ -292,7 +286,6 @@ void block::Click0(int i, int j){
         if((j+1)<18 && GameMap[i][j+1]!=100)
 
         {
-
             Click0(i,j+1);
 
             GameMap[i][j+1]+=100;
@@ -304,7 +297,6 @@ void block::Click0(int i, int j){
         if((i+1)<14 && (j-1)>=0 && GameMap[i+1][j-1]!=100)
 
         {
-
             Click0(i+1,j-1);
 
             GameMap[i+1][j-1]+=100;
@@ -318,7 +310,7 @@ void block::Click0(int i, int j){
         {
 
             Click0(i+1,j);
-
+          
             GameMap[i+1][j]+=100;
 
             if(GameMap[i+1][j]>=150) GameMap[i+1][j]-=100;
@@ -328,7 +320,6 @@ void block::Click0(int i, int j){
         if((i+1)<14 && (j+1)<18 && GameMap[i+1][j+1]!=100)
 
         {
-
             Click0(i+1,j+1);
 
             GameMap[i+1][j+1]+=100;
@@ -417,4 +408,43 @@ void block::Click(int i, int j)
 
     Click0(i,j);
 
+}
+//原来的变成Click0，现在能实现点击已翻开的部分，监测周围标旗的数和雷数是否相同，如果相同将周围的棋格翻开
+void block::Click(int i, int j)
+{
+    if(GameMap[i][j]>=101 && GameMap[i][j]<=108)
+    {
+        int mine0 = 0;
+        int flag0_true = 0;
+        int flag0_false = 0;
+        for(int x=-1;x<2;x++)
+        {
+            for(int y=-1;y<2;y++)
+            {
+                if(i+x>=0 && j+y>=0 && i+x<14 && j+y<18)
+                {
+                    if(GameMap[i+x][j+y]==99)
+                        mine0++;
+                    if(GameMap[i+x][j+y]==149)
+                        flag0_true++;
+                    if(GameMap[i+x][j+y]>=51 && GameMap[i+x][j+y]<=58)
+                        flag0_false++;
+                }
+            }
+        }
+        if(mine0 == flag0_false)
+        {
+            for(int x=-1;x<2;x++)
+            {
+                for(int y=-1;y<2;y++)
+                {
+                    if(i+x>=0 && j+y>=0 && i+x<14 && j+y<18)
+                    {
+                        Click0(i+x,j+y);
+                    }
+                }
+            }
+        }
+    }
+    Click0(i,j);
 }
