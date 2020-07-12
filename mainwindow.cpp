@@ -10,7 +10,6 @@
 #include<QFrame>
 #include<QSound>
 
-
 MainWindow::MainWindow(QWidget *parent) :
 
     QMainWindow(parent),
@@ -25,8 +24,6 @@ MainWindow::MainWindow(QWidget *parent) :
        connect(mTimer,SIGNAL(timeout()),this,SLOT(updateGameTime()));//开始游戏
 }
 
-
-
 MainWindow::~MainWindow()
 
 {
@@ -35,14 +32,11 @@ MainWindow::~MainWindow()
 
 }
 
-
 void MainWindow::paintEvent(QPaintEvent *event)
 
 {   int flag=0;
     QPixmap img01(":/flag01.png");//用于加载图片，旗子和地雷
     QPixmap img02(":/mine.png");
-
-
 
 QPainter p(this);//创建一个对象
 p.setBrush(QBrush(Qt::white,Qt::SolidPattern));//设置主窗口背景色调为白色

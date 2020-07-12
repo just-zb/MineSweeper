@@ -1,13 +1,9 @@
 #include"block.h"
-
 #include<time.h>
-
 #include<stdlib.h>
 #include<QDebug>
 
-
 block::block()
-
 {
     row=14;
     col=18;
@@ -26,9 +22,6 @@ block::block()
         for(int j=0;j<100;j++)
             GameMap[i][j]=0;
     }
-
-
-
 
     MineNumber=40;
 
@@ -125,15 +118,6 @@ block::block(int r,int c,int m)
     row=r;
     col=c;
     num_of_mine=m;
-/*    GameMap=new int*[row];
-    for(int i=0;i<row;i++)
-        GameMap[i]=new int[col];
-    int count=0;
-    for(int i=0;i<row;i++)
-    {
-        for(int j=0;j<col;j++)
-            GameMap[i][j]=0;
-    }*/
     for(int i=0;i<100;i++)
     {
         for(int j=0;j<100;j++)
@@ -232,13 +216,10 @@ block::block(int r,int c,int m)
 }
 
 
-void block::restartGame(int r,int c,int m){
+void block::restartGame(int r,int c,int m)
+{
     //~block();
     // block(r,c,m);
-
-
-
-
 
     block mblock(r,c,m);//重新定义一个对象生成随机数，然后将现在的游戏地图设置成mblock的地图
     row=r;
@@ -337,12 +318,6 @@ void block::FlagNumber(int r,int c,int m){
 void block::Click0(int i, int j,int r,int c){
 
     //如果点击到为0的方格，就采用递归方法显示空白方格和空白方格周围的带有数字的方格
-
-    //TODO:实现鼠标的在地图【i】【j】处的点击
-
-    //TODO如果点到空白的格子就递归显示方块
-
-
 
     //大体思路是，如果一个块是0就加100，对他周围每一个不等于100的块进行递归，
 

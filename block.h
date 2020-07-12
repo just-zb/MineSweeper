@@ -1,5 +1,4 @@
 #ifndef BLOCK_H
-
 #define BLOCK_H
 
 enum GameState

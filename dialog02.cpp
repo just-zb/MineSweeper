@@ -16,8 +16,6 @@ Dialog02::~Dialog02()
     delete ui;
 }
 
-
-
 void Dialog02::on_2_pushButton_clicked()//dialog02上的再来一盘的按钮。点击发送信号，下同
 {   QSound *sound_push_3_button=new QSound(":/按钮点击音效.wav",this);
     sound_push_3_button->play();

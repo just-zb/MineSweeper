@@ -48,8 +48,7 @@ RESOURCES += \
     resoures.qrc \
     win_img.qrc \
     sound_1.qrc \
-    爆炸.qrc \
-    爆炸.qrc
+    boom.qrc
 
 DISTFILES += \
     flag01
