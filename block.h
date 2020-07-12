@@ -24,7 +24,7 @@ private:
 
     //MineNumber为炸弹数，Flag是红旗数
 
-    int MineNumber;
+
 
     // 三种游戏状态
 
@@ -35,7 +35,7 @@ public:
     int col;
     int num_of_mine;
      int Flag;
-
+    int MineNumber;
      GameState gamestate; // 当前游戏状态
 
      int GameTime;//游戏进行时间

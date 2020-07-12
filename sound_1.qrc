@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/">
+        <file>插旗子音效.wav</file>
+        <file>点击棋盘音效.wav</file>
+        <file>按钮点击音效.wav</file>
+        <file>赢得音效.wav</file>
+    </qresource>
+</RCC>

@@ -8,6 +8,7 @@
 #include<QImage>
 #include<QPixmap>
 #include<QFrame>
+#include<QSound>
 
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -17,7 +18,6 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 
 {
-
     ui->setupUi(this);
     //关联信号槽
        connect(kTimer,SIGNAL(timeout()),this,SLOT(on_lcdNumber_2_overflow()));//flag
@@ -61,7 +61,12 @@ for(int i=0;i<myBlock.row;i++)//用于检测是否有雷被翻开
     }
 }
 if(flag==1)//如果有雷被翻开，就把地图上所有的雷翻开
-{   for(int i=0;i<myBlock.row;i++)
+{   //添加地雷炸掉的音效
+    //QSound*sound_mine=new QSound(":/爆炸.wav",this);
+   // sound_mine->play();
+
+
+    for(int i=0;i<myBlock.row;i++)
     {   for(int j=0;j<myBlock.col;j++)
         {   if(myBlock.GameMap[i][j]==199)
             {  for(int k=0;k<myBlock.row;k++)
@@ -75,7 +80,7 @@ if(flag==1)//如果有雷被翻开，就把地图上所有的雷翻开
             }
         }
     }
-
+   // sound_mine->stop();
 }
 
 
@@ -161,14 +166,19 @@ void  MainWindow::mouseReleaseEvent(QMouseEvent *event)
 QPoint P = event->pos();
     if(event->button()==Qt::LeftButton)
 
-    {
+    {   QSound*sound_push_Gamemap=new QSound(":/点击棋盘音效.wav",this);
+        sound_push_Gamemap->play();
         myBlock.Click((P.y()-50) / 20,(P.x()-30) / 20,myBlock.row,myBlock.col);    //<<<<<<<<这里改了一下，调了下行列的位置，原来的是错的
         qDebug() << (P.x()-30) / 20 <<" "<< (P.y()-50) / 20<<" "<<myBlock.GameMap[(P.y()-50) / 20][(P.x()-30) / 20];
         handleGameState();
     }
     //释放了右键
+
+
+
     if(event->button()==Qt::RightButton)
-    {
+    {   QSound*sound_flag=new QSound(":/插旗子音效.wav",this);
+        sound_flag->play();
         if((myBlock.GameMap[(P.y()-50) / 20][(P.x()-30) / 20]>=0&&myBlock.GameMap[(P.y()-50) / 20][(P.x()-30) / 20]<=8)||myBlock.GameMap[(P.y()-50) / 20][(P.x()-30) / 20]==99)
             myBlock.GameMap[(P.y()-50) / 20][(P.x()-30) / 20]+=50;
         else if((myBlock.GameMap[(P.y()-50) / 20][(P.x()-30) / 20]>=50&&myBlock.GameMap[(P.y()-50) / 20][(P.x()-30) / 20]<=58)||myBlock.GameMap[(P.y()-50) / 20][(P.x()-30) / 20]==149)
@@ -189,7 +199,7 @@ void MainWindow::handleGameState()
     {
         mTimer->stop();
         qDebug()<<"你赢了！";
-       // myBlock.restartGame();
+
         dialog01=new Dialog01(this);//在达到胜利状态时，弹出提示胜利的窗口
         dialog01->setModal(false);
         dialog01->resize(300,300);
@@ -202,8 +212,9 @@ void MainWindow::handleGameState()
     {
         mTimer->stop();
         qDebug()<<"你输了！";
+        QSound*sound_mine=new QSound(":/爆炸.wav",this);
+        sound_mine->play();
 
-        //myBlock.restartGame();
         dialog02=new Dialog02(this);//游戏输掉的状态，弹出提示 游戏输掉的子窗口，其余大致同上
         dialog02->setModal(false);
         dialog02->resize(150,200);
@@ -219,7 +230,7 @@ void MainWindow::handleGameState()
 void MainWindow::on_dialog_1_pushButton_clicked()//用于实现子窗口1的再来一盘
 {
     delete dialog01;
-    myBlock.restartGame(myBlock.row,myBlock.col,myBlock.num_of_mine);
+    myBlock.restartGame(myBlock.row,myBlock.col,myBlock.MineNumber);
     qDebug()<<"success";
     update();
 
@@ -234,7 +245,7 @@ void MainWindow::on_dialog_1_pushButton_2_clicked()//用于实现子窗口1的�
 void MainWindow::on_dialog_2_pushButton_clicked()//用于实现子窗口2的再来一盘
 {
     delete dialog02;
-    myBlock.restartGame(myBlock.row,myBlock.col,myBlock.num_of_mine);
+    myBlock.restartGame(myBlock.row,myBlock.col,myBlock.MineNumber);
     qDebug()<<"success";
     update();
 
@@ -258,15 +269,17 @@ void MainWindow::on_dialog_3_pushButton_clicked(int r,int c,int m)//用于实现
 
 //开始游戏的槽
 void MainWindow::on_pushButton_clicked()
-{
+{   QSound *sound_push_button=new QSound(":/按钮点击音效.wav",this);
+    sound_push_button->play();;
     qDebug()<<"重新开始";
-    myBlock.restartGame(myBlock.row,myBlock.col,myBlock.num_of_mine);
+    myBlock.restartGame(myBlock.row,myBlock.col,myBlock.MineNumber);
     //更新游戏绘图
     update();
 }
 //退出游戏的槽函数
 void MainWindow::on_pushButton_2_clicked()
-{
+{   QSound *sound_push_button=new QSound(":/按钮点击音效.wav",this);
+    sound_push_button->play();;
     qDebug()<<"退出游戏";
     QCoreApplication::quit();
 }
@@ -299,7 +312,8 @@ void MainWindow::on_lcdNumber_overflow()
 }
 
 void MainWindow::on_pushButton_3_clicked()//创建子窗口3（也就是修改游戏棋盘大小的窗口）并且连接信号
-{
+{   QSound *sound_push_7_button=new QSound(":/按钮点击音效.wav",this);
+    sound_push_7_button->play();
     dialog03=new Dialog03(this);
     dialog03->setModal(false);
 //    dialog03->resize(150,200);

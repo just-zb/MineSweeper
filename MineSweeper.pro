@@ -46,8 +46,12 @@ FORMS += \
 
 RESOURCES += \
     resoures.qrc \
-    win_img.qrc
+    win_img.qrc \
+    sound_1.qrc \
+    爆炸.qrc \
+    爆炸.qrc
 
 DISTFILES += \
     flag01
 RC_ICONS = myico.ico
+QT+= multimedia

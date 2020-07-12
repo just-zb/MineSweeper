@@ -1,6 +1,7 @@
 #include "dialog03.h"
 #include "ui_dialog03.h"
 #include<QDebug>
+#include<QSound>
 
 Dialog03::Dialog03(QWidget *parent) :
     QDialog(parent),
@@ -17,7 +18,8 @@ Dialog03::~Dialog03()
 }
 
 void Dialog03::on_dialog_3_pushButton_2_clicked()//重置lineedit按钮
-{
+{   QSound *sound_push_1_button=new QSound(":/按钮点击音效.wav",this);
+    sound_push_1_button->play();
     ui->lineEdit->setText("");
     ui->lineEdit_2->setText("");
     ui->lineEdit_3->setText("");
@@ -28,7 +30,8 @@ void Dialog03::on_dialog_3_pushButton_2_clicked()//重置lineedit按钮
 
 
 void Dialog03::on_dialog_3_pushButton_clicked()//确定并且获取lineedit内容的按钮，并且发送信号
-{
+{   QSound *sound_push_2_button=new QSound(":/按钮点击音效.wav",this);
+    sound_push_2_button->play();
     int get_row=14;
     int get_col=18;
     int get_num_mine=40;

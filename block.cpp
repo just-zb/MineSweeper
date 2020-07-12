@@ -298,7 +298,7 @@ for(int i=0;i<r;i++)
 
     {
 
-        if(GameMap[i][j]==99||GameMap[14][19]==149||(GameMap[i][j]<=108&&GameMap[i][j]>=100))
+        if(GameMap[i][j]==99||GameMap[i][j]==149||(GameMap[i][j]<=108&&GameMap[i][j]>=100))
 
             sum++;
 
