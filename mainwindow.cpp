@@ -144,10 +144,7 @@ if(flag==1)//如果有雷被翻开，就把地图上所有的雷翻开
 }
 
 
-
 //鼠标释放时才进行操作，避免按着不放的情况发生，
-
-//查资料后删除了mouseMoveEvent，直接在这里返回释放时的鼠标位置。
 
 void  MainWindow::mouseReleaseEvent(QMouseEvent *event)
 
@@ -166,10 +163,8 @@ QPoint P = event->pos();
         qDebug() << (P.x()-30) / 20 <<" "<< (P.y()-50) / 20<<" "<<myBlock.GameMap[(P.y()-50) / 20][(P.x()-30) / 20];
         handleGameState();
     }
+
     //释放了右键
-
-
-
     if(event->button()==Qt::RightButton)
     {   QSound*sound_flag=new QSound(":/插旗子音效.wav",this);
         sound_flag->play();
@@ -290,9 +285,7 @@ void MainWindow::on_lcdNumber_2_overflow()
     ui->lcdNumber_2->setStyleSheet("border: 1px solid green; color: green; background: silver;");
     ui->lcdNumber_2->display(myBlock.Flag);
 
-
 }
-
 void MainWindow::on_lcdNumber_overflow()
 {
     //对lcdnumber时间的显示样式做出修改
@@ -304,17 +297,14 @@ void MainWindow::on_lcdNumber_overflow()
     ui->lcdNumber->setStyleSheet("border: 1px solid green; color: green; background: silver;");
     ui->lcdNumber->display(myBlock.GameTime);
 }
-
 void MainWindow::on_pushButton_3_clicked()//创建子窗口3（也就是修改游戏棋盘大小的窗口）并且连接信号
 {   QSound *sound_push_7_button=new QSound(":/按钮点击音效.wav",this);
     sound_push_7_button->play();
     dialog03=new Dialog03(this);
     dialog03->setModal(false);
-//    dialog03->resize(150,200);
     dialog03->show();
 
     connect(dialog03,SIGNAL(signal03(int,int,int)),this,SLOT(on_dialog_3_pushButton_clicked(int,int,int)));
 
-    qDebug()<<"信号传递？";
-
+    qDebug()<<"信号传递";
 }
