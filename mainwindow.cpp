@@ -20,7 +20,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     //关联信号槽
        connect(kTimer,SIGNAL(timeout()),this,SLOT(on_lcdNumber_2_overflow()));//flag
-       connect(mTimer,SIGNAL(timeout()),this,SLOT(on_lcdNumber_overflow()));//gametime
+       connect(kTimer,SIGNAL(timeout()),this,SLOT(on_lcdNumber_overflow()));//gametime
        connect(mTimer,SIGNAL(timeout()),this,SLOT(updateGameTime()));//开始游戏
 }
 
